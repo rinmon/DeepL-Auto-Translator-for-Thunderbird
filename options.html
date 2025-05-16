@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DeepL 翻訳設定</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      color: #333;
+    }
+    h1 {
+      color: #0c64c0;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    button {
+      background-color: #0c64c0;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    button:hover {
+      background-color: #0a56a6;
+    }
+    .info {
+      background-color: #f8f9fa;
+      border-left: 4px solid #0c64c0;
+      padding: 10px 15px;
+      margin: 15px 0;
+      font-size: 0.9em;
+    }
+    .success {
+      color: #28a745;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>DeepL Auto Translator 設定</h1>
+  
+  <div class="info">
+    DeepL APIを利用するにはAPIキーが必要です。
+    <a href="https://www.deepl.com/pro#developer" target="_blank">DeepL API</a>から取得できます。
+  </div>
+  
+  <form id="settingsForm">
+    <div class="form-group">
+      <label for="apiKey">DeepL API キー</label>
+      <input type="text" id="apiKey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:fx">
+    </div>
+    
+    <div class="form-group">
+      <label for="targetLanguage">翻訳先の言語</label>
+      <select id="targetLanguage">
+        <option value="JA">日本語</option>
+        <option value="EN-US">英語（アメリカ）</option>
+        <option value="EN-GB">英語（イギリス）</option>
+        <option value="DE">ドイツ語</option>
+        <option value="FR">フランス語</option>
+        <option value="ES">スペイン語</option>
+        <option value="IT">イタリア語</option>
+        <option value="NL">オランダ語</option>
+        <option value="PL">ポーランド語</option>
+        <option value="PT-PT">ポルトガル語</option>
+        <option value="PT-BR">ポルトガル語（ブラジル）</option>
+        <option value="RU">ロシア語</option>
+        <option value="ZH">中国語</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="autoTranslate"> メッセージを自動的に翻訳する
+      </label>
+    </div>
+    
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="showOriginal"> 翻訳と一緒に元のメッセージも表示する
+      </label>
+    </div>
+    
+    <button type="submit">設定を保存</button>
+    <div id="saveSuccess" class="success">設定が保存されました！</div>
+  </form>
+  
+  <script src="options.js"></script>
+</body>
+</html>
