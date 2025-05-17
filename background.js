@@ -48,8 +48,16 @@ function translateMessage(tab, message) {
   logDebug(`translateMessage called for tab ${tab.id}`);
   // Get message content
   browser.messageDisplay.getDisplayedMessage(tab.id).then((messageDetails) => {
+    // Check if messageDetails and body exist
+    if (!messageDetails || !messageDetails.body) {
+      logDebug(`Error: Message body is undefined for tab ${tab.id}`);
+      return;
+    }
+    
     // Simple language detection (very basic)
     const body = messageDetails.body;
+    logDebug(`Retrieved message body with content length: ${body.content ? body.content.length : 0}`);
+    
     if (isEnglish(body.content)) {
       browser.storage.local.get("settings").then((result) => {
         if (result.settings && result.settings.apiKey) {
@@ -110,10 +118,27 @@ browser.menus.onClicked.addListener((info, tab) => {
       if (result.settings && result.settings.apiKey) {
         translateText(info.selectionText, result.settings.apiKey, result.settings.targetLanguage)
           .then(translatedText => {
-            browser.tabs.sendMessage(tab.id, {
-              action: "showTranslation",
-              original: info.selectionText,
-              translated: translatedText
+            // First check if content script is already injected
+            logDebug('Injecting content script before sending message');
+            browser.tabs.executeScript(tab.id, {
+              code: "typeof contentScriptLoaded !== 'undefined'"
+            }).then(results => {
+              if (!results || !results[0]) {
+                logDebug('Content script not loaded, injecting it now');
+                return browser.tabs.executeScript(tab.id, {file: "content.js"});
+              } else {
+                logDebug('Content script already loaded');
+                return Promise.resolve();
+              }
+            }).then(() => {
+              logDebug('Sending translation message to content script');
+              return browser.tabs.sendMessage(tab.id, {
+                action: "showTranslation",
+                original: info.selectionText,
+                translated: translatedText
+              });
+            }).catch(error => {
+              logDebug(`Error in script injection or messaging: ${error.message}`);
             });
           });
       } else {

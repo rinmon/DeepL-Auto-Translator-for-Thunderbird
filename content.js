@@ -11,6 +11,9 @@ function logDebug(message) {
 // スクリプトが読み込まれたことをログに記録
 logDebug('Content script loaded');
 
+// コンテンツスクリプトがロードされたことを示すグローバル変数
+window.contentScriptLoaded = true;
+
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener((message) => {
   logDebug(`Message received from background: ${JSON.stringify(message.action)}`);
