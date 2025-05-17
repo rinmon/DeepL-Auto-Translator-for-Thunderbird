@@ -3,7 +3,7 @@
   "name": "DeepL Auto Translator for Thunderbird",
   "version": "0.9.4",
   "description": "Automatically translates English messages using DeepL",
-  "author": "Your Name",
+  "author": "rinmon",
   "applications": {
     "gecko": {
       "id": "deepl-translator@example.com",
