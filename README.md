@@ -1,6 +1,6 @@
 # DeepL Auto Translator for Thunderbird
 
-[![Version](https://img.shields.io/badge/version-0.9.1-blue.svg)](https://github.com/rinmon/DeepL-Auto-Translator-for-Thunderbird) [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/rinmon/DeepL-Auto-Translator-for-Thunderbird/blob/main/LICENSE)
+[![Version](https://img.shields.io/badge/version-0.9.2-blue.svg)](https://github.com/rinmon/DeepL-Auto-Translator-for-Thunderbird) [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/rinmon/DeepL-Auto-Translator-for-Thunderbird/blob/main/LICENSE)
 
 Thunderbird用の拡張機能で、英語のメールを自動的にDeepL APIを使用して翻訳します。
 
