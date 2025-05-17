@@ -7,7 +7,7 @@
   "applications": {
     "gecko": {
       "id": "deepl-translator@example.com",
-      "strict_min_version": "78.0"
+      "strict_min_version": "91.0"
     }
   },
   "background": {
