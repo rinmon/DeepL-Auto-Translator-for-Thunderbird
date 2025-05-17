@@ -58,6 +58,23 @@
       margin-top: 10px;
       display: none;
     }
+    .error {
+      color: #dc3545;
+    }
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top-color: #0c64c0;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -71,7 +88,11 @@
   <form id="settingsForm">
     <div class="form-group">
       <label for="apiKey">DeepL API キー</label>
-      <input type="text" id="apiKey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:fx">
+      <div style="display: flex;">
+        <input type="text" id="apiKey" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:fx" style="flex: 1; margin-right: 10px;">
+        <button type="button" id="testApiKey" style="width: auto;">テスト</button>
+      </div>
+      <div id="apiKeyTestResult" style="margin-top: 8px; font-size: 0.9em;"></div>
     </div>
     
     <div class="form-group">
