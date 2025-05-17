@@ -21,6 +21,7 @@
     "storage",
     "messagesRead",
     "messagesModify",
+    "menus",
     "https://api.deepl.com/*"
   ],
   "message_display_action": {
