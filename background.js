@@ -3,9 +3,14 @@
  * Background script to handle message display events
  */
 
+// デバッグ用のロガー関数
+function logDebug(message) {
+  console.log(`[DeepL Translator Debug] ${message}`);
+}
+
 // Initialize when the extension loads
 browser.runtime.onInstalled.addListener(() => {
-  console.log("DeepL Auto Translator installed");
+  logDebug("DeepL Auto Translator installed");
   // Set default settings if not already set
   browser.storage.local.get("settings").then((result) => {
     if (!result.settings) {
@@ -23,16 +28,24 @@ browser.runtime.onInstalled.addListener(() => {
 
 // Listen for message display
 browser.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
+  logDebug(`Message displayed in tab ${tab.id}`);
   // Check if auto-translate is enabled
   browser.storage.local.get("settings").then((result) => {
+    logDebug(`Settings retrieved: ${JSON.stringify(result.settings)}`);
     if (result.settings && result.settings.autoTranslate) {
+      logDebug('Auto-translate is enabled, proceeding with translation');
       translateMessage(tab, message);
+    } else {
+      logDebug('Auto-translate is disabled or settings not found');
     }
+  }).catch(error => {
+    logDebug(`Error retrieving settings: ${error.message}`);
   });
 });
 
 // Function to translate the current message
 function translateMessage(tab, message) {
+  logDebug(`translateMessage called for tab ${tab.id}`);
   // Get message content
   browser.messageDisplay.getDisplayedMessage(tab.id).then((messageDetails) => {
     // Simple language detection (very basic)
@@ -90,7 +103,9 @@ browser.menus.create({
 });
 
 browser.menus.onClicked.addListener((info, tab) => {
+  logDebug(`Menu clicked: ${info.menuItemId}`);
   if (info.menuItemId === "translate-selection" && info.selectionText) {
+    logDebug(`Selection text: ${info.selectionText.substring(0, 50)}...`);
     browser.storage.local.get("settings").then((result) => {
       if (result.settings && result.settings.apiKey) {
         translateText(info.selectionText, result.settings.apiKey, result.settings.targetLanguage)

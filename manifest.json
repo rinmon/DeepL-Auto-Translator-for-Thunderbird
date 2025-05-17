@@ -22,8 +22,20 @@
     "messagesRead",
     "messagesModify",
     "menus",
+    "tabs",
+    "activeTab",
     "https://api.deepl.com/*"
   ],
+  "experiment_apis": {
+    "messageDisplayScripts": {
+      "schema": "schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["messageDisplayScripts"]],
+        "script": "api.js"
+      }
+    }
+  },
   "message_display_action": {
     "default_title": "Translate with DeepL",
     "default_icon": "icons/translate-32.png"

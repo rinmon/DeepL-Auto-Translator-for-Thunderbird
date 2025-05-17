@@ -3,14 +3,28 @@
  * Content script to modify message display
  */
 
+// デバッグ用のロガー関数
+function logDebug(message) {
+  console.log(`[DeepL Translator Content] ${message}`);
+}
+
+// スクリプトが読み込まれたことをログに記録
+logDebug('Content script loaded');
+
 // Listen for messages from the background script
 browser.runtime.onMessage.addListener((message) => {
+  logDebug(`Message received from background: ${JSON.stringify(message.action)}`);
+  
   if (message.action === "translate") {
     // Process translation request
+    logDebug('Processing translation request for full message');
     translateMessageContent(message.content, message.settings);
   } else if (message.action === "showTranslation") {
     // Show translation for selected text
+    logDebug(`Showing translation for selection: ${message.original.substring(0, 30)}...`);
     showSelectionTranslation(message.original, message.translated);
+  } else {
+    logDebug(`Unknown action: ${message.action}`);
   }
   return true;
 });
@@ -57,11 +71,30 @@ async function callDeepLApi(text, apiKey, targetLang = "JA") {
 
 // Function to display translation in the message
 function displayTranslation(originalContent, translatedContent, showOriginal) {
+  logDebug('Attempting to display translation');
   // Get the message container
   const messageContainer = document.querySelector('div.moz-text-html');
   if (!messageContainer) {
-    console.error("Message container not found");
-    return;
+    logDebug("Error: Message container not found");
+    // Try alternative selectors
+    const alternativeContainers = [
+      document.querySelector('div.mimePartBody'),
+      document.querySelector('body'),
+      document.querySelector('#message-content'),
+      document.querySelector('[id$="message-body"]')
+    ];
+    
+    const validContainer = alternativeContainers.find(container => container !== null);
+    if (validContainer) {
+      logDebug(`Found alternative container: ${validContainer.tagName}${validContainer.id ? '#'+validContainer.id : ''}`);
+      messageContainer = validContainer;
+    } else {
+      logDebug("No valid message container found. DOM structure:");
+      logDebug(document.body.innerHTML.substring(0, 200) + '...');
+      return;
+    }
+  } else {
+    logDebug("Found standard message container");
   }
   
   // Create translation container
@@ -92,6 +125,7 @@ function displayTranslation(originalContent, translatedContent, showOriginal) {
 
 // Function to show translation for selected text
 function showSelectionTranslation(originalText, translatedText) {
+  logDebug(`Creating translation popup for: ${originalText.substring(0, 30)}...`);
   // Remove any existing popup
   const existingPopup = document.getElementById('deepl-selection-popup');
   if (existingPopup) {
@@ -135,9 +169,11 @@ function showSelectionTranslation(originalText, translatedText) {
   
   // Add to page
   document.body.appendChild(popup);
+  logDebug('Translation popup added to the document');
   
   // Add close handler
   document.getElementById('deepl-close-btn').addEventListener('click', () => {
+    logDebug('Close button clicked, removing popup');
     popup.remove();
   });
   
