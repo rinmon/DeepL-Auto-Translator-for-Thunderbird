@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "DeepL Auto Translator for Thunderbird",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Automatically translates English messages using DeepL",
   "author": "Your Name",
   "applications": {
@@ -26,16 +26,7 @@
     "activeTab",
     "https://api.deepl.com/*"
   ],
-  "experiment_apis": {
-    "messageDisplayScripts": {
-      "schema": "schema.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "paths": [["messageDisplayScripts"]],
-        "script": "api.js"
-      }
-    }
-  },
+
   "message_display_action": {
     "default_title": "Translate with DeepL",
     "default_icon": "icons/translate-32.png"
